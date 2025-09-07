@@ -28,6 +28,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       messageList.innerHTML = "";
 
+      let lastSender = null;
+
       // Render each message
       comments.forEach((message) => {
         const bubble = document.createElement("div");
@@ -42,6 +44,12 @@ document.addEventListener("DOMContentLoaded", () => {
         senderName.textContent =
           participantMap.get(message.sender) || "Unknown User";
 
+        if (message.sender === lastSender) {
+          senderName.style.display = "none";
+        } else {
+          lastSender = message.sender;
+        }
+        
         const content = document.createElement("div");
         content.classList.add("message-content");
 
@@ -73,9 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
             content.textContent = "[Unsupported message type]";
         }
 
-        if (message.sender !== currentUserID) {
-          bubble.appendChild(senderName);
-        }
+        bubble.appendChild(senderName);
         bubble.appendChild(content);
         messageList.appendChild(bubble);
       });
